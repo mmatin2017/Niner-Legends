@@ -1,24 +1,36 @@
-import logo from './logo.svg';
 import './App.css';
+import Routes from "./Routes";
+import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
+import { LinkContainer } from "react-router-bootstrap";
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Niner Legends Front End
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+     
+    <div className="App container py-3">
+    <Navbar collapseOnSelect bg="light" expand="md" className="mb-3">
+      <LinkContainer to="/">
+        <Navbar.Brand className="font-weight-bold text-muted">
+          Niner Legends
+        </Navbar.Brand>
+      </LinkContainer>
+      <Navbar.Toggle />
+      <Navbar.Collapse className="justify-content-end">
+        <Nav activeKey={window.location.pathname}>
+          <LinkContainer to="/download">
+            <Nav.Link>Download Spreadsheet</Nav.Link>
+          </LinkContainer>
+          <LinkContainer to="/analytics">
+            <Nav.Link>Predictive Analytics</Nav.Link>
+          </LinkContainer>
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
+    <Routes />
+  </div>
+       
+   
   );
 }
 
