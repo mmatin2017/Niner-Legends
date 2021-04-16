@@ -1,33 +1,52 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import LoaderButton from "../components/LoaderButton";
 import "../index.css";
 import axios from 'axios';
-import {Summoners} from '../components/Summoner'
+import ListGroup from "react-bootstrap/ListGroup";
+
 
 
 
 export default function Home() {
    const [name, setName] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
-    const [state, setState] = useState(null);
-
+   const [isLoading, setIsLoading] = useState(false);
+   const [state, setState] = useState({data : {}});
+    
     function validateForm() {
       return name.length > 0;
     }
     async function handleSubmit(event) {
+      
       event.preventDefault();
       setIsLoading(true)
+      
+      let id;
         try{
-            
-            await axios.post('http://b63558c6766e.ngrok.io/summoners', {name : name})
-            .then(res => setState(res.data))
+          
+            await axios.post('http://d0c86f7024dd.ngrok.io/summoners', {name : name})
+            .then(res => {
+              
+              console.log("please work")
+              console.log(res.data)
+              for (let j = 0; j < res.data.participantIdentities.length; j++) {
+                console.log(res.data.participantIdentities[j].player.summonerName)
+                if(res.data.participantIdentities[j].player.summonerName === name){
+                  id = j;
+                  break;
+                }
+              }
+              console.log(res.data.participantIdentities[id].player.summonerName)
+              console.log(res.data.participants[id])
+              setState(res.data.participants[id]);
+              console.log(state.stats.assists)
+              console.log(id);
+              
+            })
             .catch(err => console.error(err))
             .finally(() => {
                 setIsLoading(false);
-                console.log(state.participantIdentities);
-                
-                
+                console.log(state)
             })
 
       }
@@ -37,17 +56,31 @@ export default function Home() {
       }
     }
 
-    useEffect(()=>{
+      function renderList(){
+      return(
+        <ListGroup>
+        <ListGroup.Item>Summoner {name}</ListGroup.Item>
+        <ListGroup.Item>Champion ID {state.championId}</ListGroup.Item>
+        <ListGroup.Item>Total Assists {state.stats.assists}</ListGroup.Item>
+        <ListGroup.Item>Total Kills {state.stats.kills}</ListGroup.Item>
+
+        </ListGroup>
+      )
+
+    }
+
+
+    
+    /*useEffect(()=>{
           
-          axios.post('http://b63558c6766e.ngrok.io/summoners', {name : "Lugerr"})
+          axios.post('http://4528c60c4414.ngrok.io/summoners', {name : "Lugerr"})
          .then(res => setState(res.data))
          .catch(err => console.error(err))
-
-       
-        
         }, [])
+        */
 
   return (
+    
     <div className="lander">
     <h1>Niner Legends</h1>
     <p className="text-muted">
@@ -73,6 +106,11 @@ export default function Home() {
             Submit
           </LoaderButton>
         </Form>
+
+        {renderList()}
+
+        
+      
         
   </div>
   );
