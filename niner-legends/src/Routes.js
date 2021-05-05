@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import Home from "./pages/Home";
+import Analytics from "./pages/Analytics";
 import NotFound from "./pages/NotFound";
 
 export default function Routes() {
@@ -8,6 +9,9 @@ export default function Routes() {
     <Switch>
       <Route exact path="/">
         <Home />
+      </Route>
+      <Route exact path="/analytics">
+        <Analytics />
       </Route>
       <Route>
         <NotFound />
