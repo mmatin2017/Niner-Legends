@@ -39,6 +39,8 @@ export default function Analytics() {
 
     try{
         console.log(newData)
+        //change url below
+        //await axios.post('url', newData)
         
         setIsLoading(false);
     }
