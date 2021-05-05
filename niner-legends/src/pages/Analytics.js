@@ -1,18 +1,24 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import LoaderButton from "../components/LoaderButton";
+
 import "../index.css"
 
-export default function NotFound() {
+export default function Analytics() {
+
+
 
   const [name, setName] = useState("");
   const [towerKills, setTowerKills] = useState("");
-  const [firstBlood, setFirstBlood] = useState("");
+  const [first_blood, setFirstBlood] = useState("");
   const [inhibitorKills, setInhibitorKills] = useState("");
   const [baronKills, setBaronKills] = useState("");
   const [dragonKills, setDragonKills] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
+
+  var newData;
+
 
   function validateForm() {
     return name.length > 0;
@@ -22,9 +28,18 @@ export default function NotFound() {
 
     event.preventDefault();
     setIsLoading(true);
+    newData = {
+      player_name: name,
+      tower_kills: towerKills,
+      firstBlood: first_blood,
+      inhibitor_kills: inhibitorKills,
+      baron_kills: baronKills,
+      dragon_kills: dragonKills
+    };
 
     try{
-        console.log(towerKills + " " + name + " " + firstBlood+ " " + inhibitorKills+ " " + dragonKills+ " "+ baronKills)
+        console.log(newData)
+        
         setIsLoading(false);
     }
     catch{
@@ -61,7 +76,7 @@ export default function NotFound() {
             <Form.Label>Enter First Blood</Form.Label>
             <Form.Control
               type="name"
-              value={firstBlood}
+              value={first_blood}
               onChange={(e) => setFirstBlood(e.target.value)}
             />
             <Form.Group size="lg" controlId="name">

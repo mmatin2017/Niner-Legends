@@ -24,13 +24,16 @@ export default function Home() {
     function validateForm() {
       return name.length > 0;
     }
+
+    //This handles the submit
     async function handleSubmit(event) {
       
       event.preventDefault();
       setIsLoading(true)
       
-      
+        
         try{
+            // posting the name
             await axios.post('http://41dfa7c801b5.ngrok.io/summoners', {name : name})
             .then(res => {
               for (let j = 0; j < res.data.participantIdentities.length; j++) {
