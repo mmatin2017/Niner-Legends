@@ -52,7 +52,6 @@ export default function NotFound() {
           <Form.Group size="lg" controlId="name">
             <Form.Label>Enter Tower Kills</Form.Label>
             <Form.Control
-              autoFocus
               type="name"
               value={towerKills}
               onChange={(e) => setTowerKills(e.target.value)}
@@ -61,7 +60,6 @@ export default function NotFound() {
           <Form.Group size="lg" controlId="name">
             <Form.Label>Enter First Blood</Form.Label>
             <Form.Control
-              autoFocus
               type="name"
               value={firstBlood}
               onChange={(e) => setFirstBlood(e.target.value)}
@@ -69,7 +67,6 @@ export default function NotFound() {
             <Form.Group size="lg" controlId="name">
             <Form.Label>Enter Inhibitor Kills</Form.Label>
             <Form.Control
-              autoFocus
               type="name"
               value={inhibitorKills}
               onChange={(e) => setInhibitorKills(e.target.value)}
@@ -78,7 +75,6 @@ export default function NotFound() {
           <Form.Group size="lg" controlId="name">
             <Form.Label>Enter Baron Kills</Form.Label>
             <Form.Control
-              autoFocus
               type="name"
               value={baronKills}
               onChange={(e) => setBaronKills(e.target.value)}
@@ -87,7 +83,6 @@ export default function NotFound() {
           <Form.Group size="lg" controlId="name">
             <Form.Label>Enter Dragon Kills</Form.Label>
             <Form.Control
-              autoFocus
               type="name"
               value={dragonKills}
               onChange={(e) => setDragonKills(e.target.value)}
