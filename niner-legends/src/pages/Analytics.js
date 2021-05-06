@@ -1,60 +1,65 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import LoaderButton from "../components/LoaderButton";
-
-import "../index.css"
+import "../index.css";
+import axios from 'axios';
+import ListGroup from "react-bootstrap/ListGroup";
+import plot from './plot.png';
+console.log(plot)
 
 export default function Analytics() {
 
-
-
   const [name, setName] = useState("");
   const [towerKills, setTowerKills] = useState("");
-  const [first_blood, setFirstBlood] = useState("");
+  const [firstBlood, setFirstBlood] = useState("");
   const [inhibitorKills, setInhibitorKills] = useState("");
   const [baronKills, setBaronKills] = useState("");
   const [dragonKills, setDragonKills] = useState("");
-
+  const [state, setState] = useState({data: {}})
   const [isLoading, setIsLoading] = useState(false);
-
-  var newData;
-
-
+  
   function validateForm() {
     return name.length > 0;
   }
 
   async function handleSubmit(event){
-
     event.preventDefault();
     setIsLoading(true);
-    newData = {
-      player_name: name,
-      tower_kills: towerKills,
-      firstBlood: first_blood,
-      inhibitor_kills: inhibitorKills,
-      baron_kills: baronKills,
-      dragon_kills: dragonKills
-    };
-
-    try{
-        console.log(newData)
-        //change url below
-        //await axios.post('url', newData)
-        
-        setIsLoading(false);
-    }
-    catch{
-
-    }
-
     
+    try {
+      await axios.post('http://3349b54166d0.ngrok.io/prediction', {'player_name': name,'tower_kills': towerKills,'firstblood': firstBlood,'inhibitor_kills': inhibitorKills,'baron_kills': baronKills,'dragon_kills': dragonKills})
+      .then(res => {
+        console.log(res.data)
+        setState(res.data)
+        console.log(state)
+      })
 
+    }
+    catch(event) {
+      console.log(event)
+      setIsLoading(false);
+    }
+  }
 
+  function renderStats() {
+    
+    if(isLoading === true) {
+      return (
+        <ListGroup>
+        <ListGroup.Item>Decision tree Classifier</ListGroup.Item>
+        <ListGroup.Item>Predicted Outcome: {state.pred_outcome}</ListGroup.Item>
+        <ListGroup.Item>Red Team Win Probability: {state.red_prob}%</ListGroup.Item>
+        <ListGroup.Item>Blue Team Win Probability: {state.blue_prob}%</ListGroup.Item>
+        <ListGroup.Item>Accuracy of Model: {state.accuracy*100}%</ListGroup.Item>
+        <ListGroup.Item><img src={plot} alt="plot"/></ListGroup.Item>
+        </ListGroup>          
+      )
+    }
   }
   return (
     <div className="Login">
-      <h3>Analytics Page!</h3>
+      <h3>Predict Outcome</h3>
+      <p>Team: Red</p>
 
       <Form onSubmit={handleSubmit}>
           <Form.Group size="lg" controlId="name">
@@ -78,7 +83,7 @@ export default function Analytics() {
             <Form.Label>Enter First Blood</Form.Label>
             <Form.Control
               type="name"
-              value={first_blood}
+              value={firstBlood}
               onChange={(e) => setFirstBlood(e.target.value)}
             />
             <Form.Group size="lg" controlId="name">
@@ -116,6 +121,7 @@ export default function Analytics() {
             Submit
           </LoaderButton>
         </Form>
+        {renderStats()}
     </div>
   );
 }
