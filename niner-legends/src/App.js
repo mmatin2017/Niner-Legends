@@ -26,7 +26,7 @@ function App() {
               <Nav.Link>Delete Game</Nav.Link>
             </LinkContainer>
             <a className ="font-weight bold text-muted App container py-3" href="https://docs.google.com/spreadsheets/d/14GjAZZrLRab4mZRZipFaCiXtfIJBexPTNtu0DzPFRv0/edit?usp=sharing">
-              Download Spreadsheet
+              Spreadsheet
             </a>
           </Nav>
         </Navbar.Collapse>
