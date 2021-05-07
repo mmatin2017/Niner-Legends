@@ -16,12 +16,18 @@ function App() {
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <Nav activeKey={window.location.pathname}>
-            <LinkContainer to="/download">
-              <Nav.Link>Download Spreadsheet</Nav.Link>
+          <LinkContainer to="/">
+              <Nav.Link>Home</Nav.Link>
             </LinkContainer>
             <LinkContainer to="/analytics">
               <Nav.Link>Predictive Analytics</Nav.Link>
             </LinkContainer>
+            <LinkContainer to="/delete">
+              <Nav.Link>Delete Game</Nav.Link>
+            </LinkContainer>
+            <a className ="font-weight bold text-muted App container py-3" href="https://docs.google.com/spreadsheets/d/14GjAZZrLRab4mZRZipFaCiXtfIJBexPTNtu0DzPFRv0/edit?usp=sharing">
+              Download Spreadsheet
+            </a>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

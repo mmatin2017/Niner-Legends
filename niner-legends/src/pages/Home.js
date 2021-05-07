@@ -23,13 +23,13 @@ export default function Home() {
     try {
       // posting the name
       await axios
-        .post("http://7ae43471d963.ngrok.io/id", { GameID: gameID })
+        .post("http://29d5b09f8713.ngrok.io/id", { GameID: gameID })
         .then()
         .catch((err) => console.error(err))
         .finally(() => {});
 
       await axios
-        .get("http://7ae43471d963.ngrok.io/matches")
+        .get("http://29d5b09f8713.ngrok.io/matches")
         .then((res) => {
           console.log(res.data);
           setState(res.data.Matches);
@@ -61,9 +61,11 @@ export default function Home() {
           <h3 style={{ color: "#348ceb" }}>Win</h3>
           <h3 style={{ color: "#800919" }}>Loss</h3>
 
-          <ListGroup variant="">
+          <ListGroup variant="flush" as="ul">
             {state.map((mObj) => (
-              <ListGroup.Item key={mObj.GameID}>
+              <ListGroup.Item key={mObj.GameID}
+               action href="">
+
                 {"Match ID: "}
                 {mObj.GameID}
                 <br />
