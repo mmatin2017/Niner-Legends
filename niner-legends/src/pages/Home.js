@@ -61,12 +61,60 @@ export default function Home() {
           <h3 style={{ color: "#348ceb" }}>Win</h3>
           <h3 style={{ color: "#800919" }}>Loss</h3>
 
-          <ListGroup>
+          <ListGroup variant="">
             {state.map((mObj) => (
               <ListGroup.Item key={mObj.GameID}>
                 {"Match ID: "}
                 {mObj.GameID}
                 <br />
+
+                <div>
+                  {mObj.Details.teams.map((sub) => (
+                    <div
+                      key={sub.FirstBlood}
+                      style={
+                        sub.Win.toString() === "Win"
+                          ? { color: "#348ceb" }
+                          : { color: "#800919" }
+                      }
+                    >
+                      <div>
+                        {"Team: "}
+                        {sub.Team}
+                      </div>
+
+                      <div>
+                        {"Win: "}
+                        {sub.Win}
+                      </div>
+
+                      <div>
+                        {"Baron Kills: "}
+                        {sub.BaronKills}
+                      </div>
+
+                      <div>
+                        {"Dragon Kills: "}
+                        {sub.DragonKills}
+                      </div>
+
+                      <div>
+                        {"First Blood: "}
+                        {sub.FirstBlood.toString()}
+                      </div>
+
+                      <div>
+                        {"Inhibitor Kills: "}
+                        {sub.InhibitorKills}
+                      </div>
+
+                      <div>
+                        {"Tower Kills: "}
+                        {sub.TowerKills}
+                      </div>
+                    </div>
+                  ))}
+                </div>
                 <div>
                   {mObj.Details.participants.map((sub) => (
                     <div
@@ -83,6 +131,11 @@ export default function Home() {
                       <div>
                         {"Champion Level: "}
                         {sub.champLevel}
+                      </div>
+
+                      <div>
+                        {"Win: "}
+                        {sub.win.toString()}
                       </div>
 
                       <div>
@@ -131,12 +184,11 @@ export default function Home() {
                       <div>
                         {"Primary 2: "}
                         {sub.Primary2}
-                        {", "}
                       </div>
 
                       <div>
                         {"Primary 3: "}
-                        {sub.Primary3}{" "}
+                        {sub.Primary3}
                       </div>
 
                       <div>
@@ -178,17 +230,9 @@ export default function Home() {
                         {"Total Minions Killed: "}
                         {sub.totalMinionsKilled}
                       </div>
-
-                      <div>
-                        {"Win: "}
-                        {sub.win.toString()}
-
-                        <br />
-                      </div>
                     </div>
                   ))}
                 </div>
-                <br />
               </ListGroup.Item>
             ))}
           </ListGroup>
