@@ -16,6 +16,7 @@ export default function Analytics() {
   const [dragonKills, setDragonKills] = useState("");
   const [state, setState] = useState({ data: {} });
   const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   function validateForm() {
     return name.length > 0;
@@ -27,7 +28,7 @@ export default function Analytics() {
 
     try {
       await axios
-        .post("http://3349b54166d0.ngrok.io/prediction", {
+        .post("http://ab43cc4188ce.ngrok.io/prediction", {
           player_name: name,
           tower_kills: towerKills,
           firstblood: firstBlood,
@@ -39,7 +40,12 @@ export default function Analytics() {
           console.log(res.data);
           setState(res.data);
           console.log(state);
+        })
+        .finally(() => {
+          setIsLoading(false);
+          setLoading(false);
         });
+        
     } catch (event) {
       console.log(event);
       setIsLoading(false);
@@ -48,6 +54,8 @@ export default function Analytics() {
 
   function renderStats() {
     if (isLoading === true) {
+      return <h4>Enter Data</h4>;
+    } else {
       return (
         <ListGroup>
           <ListGroup.Item>Decision tree Classifier</ListGroup.Item>

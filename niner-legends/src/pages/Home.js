@@ -23,13 +23,13 @@ export default function Home() {
     try {
       // posting the name
       await axios
-        .post("http://29d5b09f8713.ngrok.io/id", { GameID: gameID })
+        .post("http://ab43cc4188ce.ngrok.io/id", { GameID: gameID })
         .then()
         .catch((err) => console.error(err))
         .finally(() => {});
 
       await axios
-        .get("http://29d5b09f8713.ngrok.io/matches")
+        .get("http://ab43cc4188ce.ngrok.io/matches")
         .then((res) => {
           console.log(res.data);
           setState(res.data.Matches);

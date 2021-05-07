@@ -5,7 +5,7 @@ import "../index.css";
 import axios from "axios";
 
 export default function Home() {
-    const [gameID, setGameID] = useState("");
+    const [gameID, setGameID] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
 
     function validateForm() {
@@ -15,11 +15,14 @@ export default function Home() {
       async function handleSubmit(event) {
         event.preventDefault();
         setIsLoading(true);
+        let url = "http://ab43cc4188ce.ngrok.io/delete/"
     
         try {
           // posting the name
+          console.log(gameID)
+          console.log(url+gameID)
           await axios
-            .delete("http://29d5b09f8713.ngrok.io/delete/"+gameID)
+            .delete(url+gameID)
             .then()
             .catch((err) => console.error(err))
             .finally(() => setIsLoading(false));
