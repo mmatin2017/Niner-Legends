@@ -9,20 +9,14 @@ import ListGroup from "react-bootstrap/ListGroup";
 
 
 export default function Home() {
-   const [name, setName] = useState("");
+   const [gameID, setGameID] = useState("");
    const [isLoading, setIsLoading] = useState(false);
-   const [state, setState] = useState({data: {}})
+   const [state, setState] = useState([]);
    const [loading, setLoading] = useState(true);
-   const [id, setId] = useState(0);;
 
-  
    
-
-  
-
-    
     function validateForm() {
-      return name.length > 0;
+      return gameID.length > 0;
     }
 
     //This handles the submit
@@ -30,43 +24,31 @@ export default function Home() {
       
       event.preventDefault();
       setIsLoading(true)
-      
+     
         
         try{
             // posting the name
-            await axios.post('http://41dfa7c801b5.ngrok.io/summoners', {name : name})
-            .then(res => {
-              for (let j = 0; j < res.data.participantIdentities.length; j++) {
-                console.log(res.data.participantIdentities[j].player.summonerName)
-                if(res.data.participantIdentities[j].player.summonerName === name){
-                  setId(j);
-                  break;
-                }
-              }
-              
-            })
+            await axios.post('http://7ae43471d963.ngrok.io/id', {GameID : gameID})
             .then()
             .catch(err => console.error(err))
             .finally(() => {
             })
 
-            await axios.get('http://41dfa7c801b5.ngrok.io/participants')
+            await axios.get('http://7ae43471d963.ngrok.io/matches')
             .then(res => {
               console.log(res.data)
-              setState(res.data)
-              console.log(state.champion[id])
+              setState(res.data.Matches)
+
+              console.log(state.Matches[0].Details.participants[0])
+              console.log(state.Matches[0].GameID)
               setLoading(false);
 
-
-              
-             
-              
-              
-              
-              
-
             })
-            .catch(err => console.error(err))
+            .catch(err => {
+              console.error(err)
+
+              
+            })
             .finally(() => {
                 setIsLoading(false);
                 setLoading(false);
@@ -80,37 +62,165 @@ export default function Home() {
         setIsLoading(false);
       }
     }
-     
-      function renderList(){
-        if(loading ===true){
-          return <h4>Enter Summoner Name</h4>
-        }
-        else{
-      return(
-        
-        <ListGroup>
-        <ListGroup.Item>Summoner {name}</ListGroup.Item>
-        <ListGroup.Item>Champion: {state.champion[id]}</ListGroup.Item>
-        <ListGroup.Item>Win {state.win[id]}</ListGroup.Item>
-        <ListGroup.Item>Total Kills: {state.kills[id]}</ListGroup.Item>
-        <ListGroup.Item>Total Deaths: {state.deaths[id]}</ListGroup.Item>
-        <ListGroup.Item>Total Assists: {state.assists[id]}</ListGroup.Item>
-        <ListGroup.Item>Total Damage: {state.totalDamageDealt[id]}</ListGroup.Item>
-        <ListGroup.Item>Total Gold Earned: {state.goldEarned[id]}</ListGroup.Item>
-        <ListGroup.Item>Champion Level: {state.champLevel[id]}</ListGroup.Item>
-        <ListGroup.Item>Total Minions Killed: {state.totalMinionsKilled[id]}</ListGroup.Item>
-        <ListGroup.Item>Item 1: {state.Item1[id]}</ListGroup.Item>
-        <ListGroup.Item>Item 2: {state.Item2[id]}</ListGroup.Item>
-        <ListGroup.Item>Item 3: {state.Item3[id]}</ListGroup.Item>
-        <ListGroup.Item>Item 4: {state.Item4[id]}</ListGroup.Item>
-        <ListGroup.Item>Item 5: {state.Item5[id]}</ListGroup.Item>
-        <ListGroup.Item>Item 6: {state.Item6[id]}</ListGroup.Item>
-        <ListGroup.Item>Item 7: {state.Item7[id]}</ListGroup.Item>
-        </ListGroup>
-      )
-        }
 
-    }
+    function renderList(){
+      if(loading ===true){
+        return <h4>Enter GameID</h4>
+      }
+      else{
+    return(
+      <div className = "Login">
+        <h1>Matches</h1>
+        <h3 style = {{color: "#348ceb"}}>Win</h3>
+        <h3 style = {{color: "#800919"}}>Loss</h3>
+
+        <ListGroup>
+          {
+          state.map(mObj =>(
+              <ListGroup.Item key = {mObj.GameID} >
+                {"Match ID: "}
+                {mObj.GameID}
+                <br />
+                <div>
+                {
+                mObj.Details.participants.map((sub) =>
+                <div key = {sub.totalDamageDealt} style = {sub.win.toString() === "true" ? {color: "#348ceb"} : {color: "#800919"}}>
+
+          
+                 {"Champion: "}
+                 {sub.champion}
+
+                 <div>
+                 {"Champion Level: "}
+                 {sub.champLevel}
+                 </div>
+
+                 <div>
+                 {"Item 1 : "} 
+                 {sub.Item1}{" "}
+                 </div>
+
+                 <div>
+                 {"Item 2 : "} 
+                 {sub.Item2}{" "}
+                 </div>
+
+                 <div>
+                 {"Item 3 : "} 
+                 {sub.Item3}{" "}
+                 </div>
+
+                 <div>
+                 {"Item 4 : "} 
+                 {sub.Item4}{" "}
+                 </div>
+
+                 <div>
+                 {"Item 5 : "} 
+                 {sub.Item5}{" "}
+                 </div>
+
+                 <div>
+                 {"Item 6 : "} 
+                 {sub.Item6}{" "}
+                 </div>
+
+                 <div>
+                 {"Items 7 : "} 
+                 {sub.Item7}{" "}
+                 </div>
+
+                 {" Keystone: "} 
+                 {sub.KeyStone}
+
+                 <div>
+                 {"Primary 1: "} 
+                 {sub.Primary1}
+                 </div>
+
+                 <div>
+                 {"Primary 2: "}  
+                 {sub.Primary2}{", "}
+                 </div>
+
+                 <div>
+                 {"Primary 3: "}             
+                 {sub.Primary3}{" "}
+                 </div>
+
+                 <div>
+                 {"Secondary 1: "} 
+                 {sub.Secondary1}
+                 </div>
+
+                 <div>
+                 {"Secondary 2: "} 
+                 {sub.Secondary2}{" "}
+                 </div>
+
+                 <div>
+                 {"Kills: "}
+                 {sub.kills}
+                 </div>
+
+                 <div>
+                 {"Deaths: "}
+                 {sub.deaths}
+                 </div>
+
+                 <div>
+                 {"Assists: "}
+                 {sub.assists}
+                 </div>
+
+                 <div>
+                 {"Gold Earned: "}
+                 {sub.goldEarned}
+                 </div>
+                 
+                 <div>
+                 {"Total Damage Dealt: "}
+                 {sub.totalDamageDealt}
+                 </div>
+
+                 <div>
+                 {"Total Minions Killed: "}
+                 {sub.totalMinionsKilled}
+                 </div>
+
+                 <div>
+                 {"Win: "}
+                 {sub.win.toString()}
+
+                <br/>
+                 
+                 </div>
+              
+                </div>
+                )
+                }
+                </div>
+                <br />
+            
+                
+                
+              </ListGroup.Item>
+              
+            
+          ))
+          }
+          </ListGroup>
+
+      </div>
+      
+    )
+      }
+
+  }
+
+   
+     
+    
 
 
   return (
@@ -124,12 +234,12 @@ export default function Home() {
     <div className="Login">
     <Form onSubmit={handleSubmit}>
           <Form.Group size="lg" controlId="name">
-            <Form.Label>Enter Summoner Name</Form.Label>
+            <Form.Label>Enter Game ID</Form.Label>
             <Form.Control
               autoFocus
               type="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={gameID}
+              onChange={(e) => setGameID(e.target.value)}
             />
           </Form.Group>
           <LoaderButton
@@ -142,12 +252,12 @@ export default function Home() {
             Submit
           </LoaderButton>
         </Form>
+    
         </div>
-
         {renderList()}
+    
 
         </div>
-
         
       
         
